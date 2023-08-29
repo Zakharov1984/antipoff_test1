@@ -1,10 +1,22 @@
+import { useState } from "react";
 import { Button } from "../../copmponents/UI/Button/Button";
 import { Input } from "../../copmponents/UI/Input/Input";
 
 import classes from './Register.module.scss';
-console.log(classes);
 
 export const Register = () => {
+
+  const [valueInputs, setValueInputs] = useState({
+    name: '',
+    email: '',
+    password: '',
+    checkPassword: '',
+  })
+
+  const changeValuesInput = (e) => {
+    setValueInputs({...valueInputs, [e.target.name]: e.target.value})
+  }
+
   return (
     <div className={classes.register}>
       <form className={classes.registerForm} action="#" >
@@ -12,26 +24,30 @@ export const Register = () => {
         <Input
           classNameInput={classes.registerForm__input} 
           type='text' 
-          name="name" 
-          value='check'
+          name="name"
+          onChange={changeValuesInput} 
+          value={valueInputs.name}
           label='Имя' />
           <Input
             classNameInput={classes.registerForm__input} 
             type='text' 
-            name="name" 
-            value='check'
+            name="email"
+            onChange={changeValuesInput} 
+            value={valueInputs.email}
             label='Электронная почта' />
           <Input
             classNameInput={classes.registerForm__input} 
             type='password' 
-            name="name" 
-            value='check'
+            name="password"
+            onChange={changeValuesInput} 
+            value={valueInputs.password}
             label='Пароль' />
           <Input
             classNameInput={classes.registerForm__input} 
             type='password' 
-            name="name" 
-            value='check'
+            name="checkPassword"
+            onChange={changeValuesInput} 
+            value={valueInputs.checkPassword}
             label='Подтвердите пароль' />
           <Button className={classes.registerForm__button}>
             Зарегистрироваться
