@@ -2,15 +2,25 @@ import classes from './Input.module.scss';
 
 import cn from 'classnames';
 
-export const Input = ({label, classNameInput, ...props}) => {
+export const Input = ({label, classNameInput, IconVisible, ...props}) => {
   if (label) {
     return <label className={classes.label}>
               {label}
-              <input className={cn(classes.input, classNameInput)} {...props} />
+              <div className={classes.inputWithIcon}>
+                <input className={cn(classes.input, classNameInput)} {...props} />
+                {IconVisible 
+                ? IconVisible
+                : null}
+              </div>
             </label>
   }
 
   return (
-    <input className={cn(classes.input, classNameInput)} {...props} />
+    <div className={classes.inputWithIcon}>
+      <input className={cn(classes.input, classNameInput)} {...props} />
+      {IconVisible 
+      ? IconVisible
+      : null}
+    </div>
   )
 }

@@ -35,6 +35,20 @@
     line-height: 32px;
     color: #FFF;
   }
+
+  &__icon {
+    display: block;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    stroke: #808185;
+
+    &:hover {
+      stroke: #80818570;
+    }
+  }
 }
 
 

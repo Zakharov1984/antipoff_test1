@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Button } from "../../copmponents/UI/Button/Button";
 import { Input } from "../../copmponents/UI/Input/Input";
 
+import {ReactComponent as IconVisible} from '../../resources/visible.svg'
+
 import classes from './Register.module.scss';
 
 export const Register = () => {
@@ -41,14 +43,16 @@ export const Register = () => {
             name="password"
             onChange={changeValuesInput} 
             value={valueInputs.password}
-            label='Пароль' />
+            label='Пароль'
+            IconVisible={<IconVisible className={classes.registerForm__icon}/>} />
           <Input
             classNameInput={classes.registerForm__input} 
             type='password' 
             name="checkPassword"
             onChange={changeValuesInput} 
             value={valueInputs.checkPassword}
-            label='Подтвердите пароль' />
+            label='Подтвердите пароль'
+            IconVisible={<IconVisible className={classes.registerForm__icon}/>} />
           <Button className={classes.registerForm__button}>
             Зарегистрироваться
           </Button>
