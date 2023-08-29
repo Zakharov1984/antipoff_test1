@@ -1,0 +1,21 @@
+@import '../../../style/var'; 
+
+.input {
+  border: none;
+  border-radius: 8px;
+  background: $inputBg;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 12px 8px 12px 16px;
+  align-self: stretch;
+  color: $inputText;
+}
+
+.label {
+  display: block;
+  font-size: 16px;
+  line-height: 136.187%;
+  font-weight: 400;
+  text-align: left;
+  color: #151317;
+}
