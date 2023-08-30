@@ -1,8 +1,11 @@
 import { useState } from "react";
+
 import { Button } from "../../copmponents/UI/Button/Button";
 import { Input } from "../../copmponents/UI/Input/Input";
 
-import {ReactComponent as IconVisible} from '../../resources/visible.svg'
+import cn from 'classnames';
+
+import {ReactComponent as IconEye} from '../../resources/visible.svg'
 
 import classes from './Register.module.scss';
 
@@ -14,10 +17,23 @@ export const Register = () => {
     password: '',
     checkPassword: '',
   })
+  const [isVisiblePassword, setisVisiblePassword] = useState(false);
+  const [isVisibleCheckPassword, setIsVisibleCheckPassword] = useState(false);
 
-  const changeValuesInput = (e) => {
+  const changeValuesInput = e => {
     setValueInputs({...valueInputs, [e.target.name]: e.target.value})
   }
+
+  const changeVisiblePassword = () => setisVisiblePassword(!isVisiblePassword);
+  const changeIsVisibleCheckPassword = () => setIsVisibleCheckPassword(!isVisibleCheckPassword);
+
+  let mainClassIconPassword = !isVisiblePassword 
+                                ? classes.registerForm__icon 
+                                : cn(classes.registerForm__icon, classes.notActive);
+
+  let mainClassIconCheckPassword = !isVisibleCheckPassword 
+                                    ? classes.registerForm__icon 
+                                    : cn(classes.registerForm__icon, classes.notActive);
 
   return (
     <div className={classes.register}>
@@ -39,20 +55,24 @@ export const Register = () => {
             label='Электронная почта' />
           <Input
             classNameInput={classes.registerForm__input} 
-            type='password' 
+            type={isVisiblePassword ? 'text' : 'password'} 
             name="password"
             onChange={changeValuesInput} 
             value={valueInputs.password}
             label='Пароль'
-            IconVisible={<IconVisible className={classes.registerForm__icon}/>} />
+            IconEye={<IconEye 
+                      className={mainClassIconPassword} 
+                      onClick={changeVisiblePassword}/>}/>
           <Input
             classNameInput={classes.registerForm__input} 
-            type='password' 
+            type={isVisibleCheckPassword ? 'text' : 'password'} 
             name="checkPassword"
             onChange={changeValuesInput} 
             value={valueInputs.checkPassword}
             label='Подтвердите пароль'
-            IconVisible={<IconVisible className={classes.registerForm__icon}/>} />
+            IconEye={<IconEye 
+                      className={mainClassIconCheckPassword} 
+                      onClick={changeIsVisibleCheckPassword}/>}/>
           <Button className={classes.registerForm__button}>
             Зарегистрироваться
           </Button>

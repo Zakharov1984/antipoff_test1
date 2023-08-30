@@ -44,10 +44,10 @@
     transform: translateY(-50%);
     cursor: pointer;
     stroke: #808185;
+  }
 
-    &:hover {
-      stroke: #80818570;
-    }
+  .notActive {
+    stroke: #80818570;
   }
 }
 
