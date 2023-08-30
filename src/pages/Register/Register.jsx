@@ -8,6 +8,7 @@ import cn from 'classnames';
 import {ReactComponent as IconEye} from '../../resources/visible.svg'
 
 import classes from './Register.module.scss';
+import { FormErrorMessage } from "../../copmponents/FormErrorMessage/FormErrorMessage";
 
 export const Register = () => {
 
@@ -46,6 +47,7 @@ export const Register = () => {
           onChange={changeValuesInput} 
           value={valueInputs.name}
           label='Имя' />
+          <FormErrorMessage type='name'/>
           <Input
             classNameInput={classes.registerForm__input} 
             type='text' 
