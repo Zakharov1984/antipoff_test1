@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "../../copmponents/UI/Button/Button";
 import { Input } from "../../copmponents/UI/Input/Input";
@@ -11,18 +11,72 @@ import classes from './Register.module.scss';
 import { FormErrorMessage } from "../../copmponents/FormErrorMessage/FormErrorMessage";
 
 export const Register = () => {
-
-  const [valueInputs, setValueInputs] = useState({
+  //состояния
+  const [inputsValue, setInputsValue] = useState({
     name: '',
     email: '',
     password: '',
     checkPassword: '',
   })
+
+  const [inputsDirty, setInputsDirty] = useState({
+    name: false,
+    email: false,
+    password: false,
+    checkPassword: false,
+  })
+
+  const [inputsError, setInputsError] = useState({
+    name: true,
+    email: true,
+    password: true,
+    checkPassword: true,
+  })
+
+  const [formValid, setFormValid] = useState(false);
+
+  useEffect(() => {
+    const {name, email, password, checkPassword} = inputsError;
+    (name || email || password || checkPassword) ? setFormValid(false) : setFormValid(true);
+  }, [inputsError]);
+
+
   const [isVisiblePassword, setisVisiblePassword] = useState(false);
   const [isVisibleCheckPassword, setIsVisibleCheckPassword] = useState(false);
+  //____________________________________________________________________________
 
   const changeValuesInput = e => {
-    setValueInputs({...valueInputs, [e.target.name]: e.target.value})
+    setInputsValue({...inputsValue, [e.target.name]: e.target.value})
+  }
+
+  const blurHandler = (e) => {
+    setInputsDirty({...inputsDirty, [e.target.name]: true})
+  }
+
+  const checkError = (e, isError) => {
+    setInputsError({...inputsError, [e.target.name] : isError})
+  }
+
+  const handlerInputs = (e) => {
+    changeValuesInput(e);
+    switch (e.target.name) {
+      case 'name':
+        e.target.value.length < 3 ? checkError(e, true) : checkError(e, false);
+        break;
+      case 'email':
+        const re =
+        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        re.test(String(e.target.value).toLowerCase()) ? checkError(e, false) : checkError(e, true);
+        break;
+      case 'password':
+        e.target.value.length < 5 ? checkError(e, true) : checkError(e, false);
+        break;
+        case 'checkPassword':
+          e.target.value !== inputsValue.password ? checkError(e, true) : checkError(e, false);
+          break;
+      default:
+        console.log('sdf');
+    }
   }
 
   const changeVisiblePassword = () => setisVisiblePassword(!isVisiblePassword);
@@ -36,6 +90,10 @@ export const Register = () => {
                                     ? classes.registerForm__icon 
                                     : cn(classes.registerForm__icon, classes.notActive);
 
+  let mainClassButton = formValid 
+                          ? cn(classes.registerForm__button, classes.notDisabled)
+                          : classes.registerForm__button
+    
   return (
     <div className={classes.register}>
       <form className={classes.registerForm} action="#" >
@@ -44,38 +102,48 @@ export const Register = () => {
           classNameInput={classes.registerForm__input} 
           type='text' 
           name="name"
-          onChange={changeValuesInput} 
-          value={valueInputs.name}
+          onChange={handlerInputs}
+          onBlur={blurHandler}
+          value={inputsValue.name}
           label='Имя' />
-          <FormErrorMessage type='name'/>
+          {(inputsDirty.name && inputsError.name) && <FormErrorMessage type='name'/>}
           <Input
             classNameInput={classes.registerForm__input} 
             type='text' 
             name="email"
-            onChange={changeValuesInput} 
-            value={valueInputs.email}
+            onChange={handlerInputs}
+            onBlur={blurHandler} 
+            value={inputsValue.email}
             label='Электронная почта' />
+          {(inputsDirty.email && inputsError.email) && <FormErrorMessage type='email'/>}
           <Input
             classNameInput={classes.registerForm__input} 
             type={isVisiblePassword ? 'text' : 'password'} 
             name="password"
-            onChange={changeValuesInput} 
-            value={valueInputs.password}
+            onChange={handlerInputs}
+            onBlur={blurHandler} 
+            value={inputsValue.password}
             label='Пароль'
             IconEye={<IconEye 
                       className={mainClassIconPassword} 
                       onClick={changeVisiblePassword}/>}/>
+            {(inputsDirty.password && inputsError.password) && <FormErrorMessage type='password'/>}
           <Input
             classNameInput={classes.registerForm__input} 
             type={isVisibleCheckPassword ? 'text' : 'password'} 
             name="checkPassword"
-            onChange={changeValuesInput} 
-            value={valueInputs.checkPassword}
+            onChange={handlerInputs}
+            onBlur={blurHandler} 
+            value={inputsValue.checkPassword}
             label='Подтвердите пароль'
             IconEye={<IconEye 
                       className={mainClassIconCheckPassword} 
                       onClick={changeIsVisibleCheckPassword}/>}/>
-          <Button className={classes.registerForm__button}>
+            {(inputsDirty.checkPassword && inputsError.checkPassword) && <FormErrorMessage type='checkPassword'/>}
+          <Button 
+            disabled={!formValid} 
+            className={mainClassButton}
+            onClick={() => console.log('buttonActive')}>
             Зарегистрироваться
           </Button>
       </form>

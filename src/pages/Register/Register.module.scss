@@ -31,7 +31,7 @@
     margin-top: 24px;
     padding: 8px 12px;
     border: none;
-    background: $mainColor;
+    background: #51268963;
     line-height: 32px;
     color: #FFF;
   }
@@ -43,11 +43,14 @@
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    stroke: #808185;
   }
 
   .notActive {
     stroke: #80818570;
+  }
+
+  .notDisabled {
+    background: $mainColor;
   }
 }
 
