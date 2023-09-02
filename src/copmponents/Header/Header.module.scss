@@ -1,0 +1,23 @@
+@import '../../style/var';
+
+.header {
+  min-height: 265px;
+  padding-top: 32px;
+  background: $mainColor;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+
+  &__btn {
+    padding: 8px 16px;
+    border: 1px solid #F8F8F8;
+    background: none;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #F8F8F8;
+    
+  }
+}

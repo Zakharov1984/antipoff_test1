@@ -1,0 +1,18 @@
+.catalogHeader {
+
+  &__title {
+    margin-top: 2px;
+    font-size: 64px;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+  }
+
+  &__descr {
+    max-width: 846px;
+    margin: 16px auto 0;
+    font-size: 20px;
+    color: #F8F8F8;
+    text-align: center;
+  }
+}

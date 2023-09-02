@@ -1,10 +1,13 @@
-import './App.scss';
 import { Register } from '../../pages/Register/Register';
+import { Catalog } from '../../pages/Catalog/Catalog';
+
+import './App.scss';
 
 function App() {
   return (
     <div className="App">
-      <Register/>
+      {/* <Register/> */}
+      <Catalog/>
     </div>
   );
 }

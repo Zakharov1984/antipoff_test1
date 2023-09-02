@@ -52,6 +52,10 @@
   .notDisabled {
     background: $mainColor;
   }
+
+  .inputErr {
+    outline: 1px solid $error;
+  }
 }
 
 

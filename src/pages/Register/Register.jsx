@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 
 import { Button } from "../../copmponents/UI/Button/Button";
 import { Input } from "../../copmponents/UI/Input/Input";
+import { FormErrorMessage } from "../../copmponents/FormErrorMessage/FormErrorMessage";
+import {ReactComponent as IconEye} from '../../resources/visible.svg';
 
 import cn from 'classnames';
 
-import {ReactComponent as IconEye} from '../../resources/visible.svg'
-
 import classes from './Register.module.scss';
-import { FormErrorMessage } from "../../copmponents/FormErrorMessage/FormErrorMessage";
 
 export const Register = () => {
   //состояния
@@ -35,15 +34,14 @@ export const Register = () => {
 
   const [formValid, setFormValid] = useState(false);
 
+  const [isVisiblePassword, setisVisiblePassword] = useState(false);
+  const [isVisibleCheckPassword, setIsVisibleCheckPassword] = useState(false);
+  //____________________________________________________________________________
+
   useEffect(() => {
     const {name, email, password, checkPassword} = inputsError;
     (name || email || password || checkPassword) ? setFormValid(false) : setFormValid(true);
   }, [inputsError]);
-
-
-  const [isVisiblePassword, setisVisiblePassword] = useState(false);
-  const [isVisibleCheckPassword, setIsVisibleCheckPassword] = useState(false);
-  //____________________________________________________________________________
 
   const changeValuesInput = e => {
     setInputsValue({...inputsValue, [e.target.name]: e.target.value})
@@ -53,7 +51,7 @@ export const Register = () => {
     setInputsDirty({...inputsDirty, [e.target.name]: true})
   }
 
-  const checkError = (e, isError) => {
+  const changeError = (e, isError) => {
     setInputsError({...inputsError, [e.target.name] : isError})
   }
 
@@ -61,18 +59,18 @@ export const Register = () => {
     changeValuesInput(e);
     switch (e.target.name) {
       case 'name':
-        e.target.value.length < 3 ? checkError(e, true) : checkError(e, false);
+        e.target.value.length < 3 ? changeError(e, true) : changeError(e, false);
         break;
       case 'email':
         const re =
         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        re.test(String(e.target.value).toLowerCase()) ? checkError(e, false) : checkError(e, true);
+        re.test(String(e.target.value).toLowerCase()) ? changeError(e, false) : changeError(e, true);
         break;
       case 'password':
-        e.target.value.length < 5 ? checkError(e, true) : checkError(e, false);
+        e.target.value.length < 5 ? changeError(e, true) : changeError(e, false);
         break;
         case 'checkPassword':
-          e.target.value !== inputsValue.password ? checkError(e, true) : checkError(e, false);
+          e.target.value !== inputsValue.password ? changeError(e, true) : changeError(e, false);
           break;
       default:
         console.log('sdf');
