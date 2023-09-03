@@ -6,6 +6,10 @@
   background: $mainColor;
 }
 
+.svg {
+  fill: #F8F8F8;
+}
+
 .nav {
   display: flex;
   justify-content: space-between;
@@ -22,6 +26,15 @@
     font-weight: 400;
     color: #F8F8F8;
     
+    &_hidden {
+      background:transparent;
+      color: transparent;
+      border: transparent;
+      
+      & .svg {
+        fill: transparent;
+      }
+    }
   }
 }
 
