@@ -2,7 +2,7 @@
 
 .header {
   min-height: 265px;
-  padding-top: 32px;
+  padding: 32px 0 39px;
   background: $mainColor;
 }
 
@@ -11,6 +11,9 @@
   justify-content: space-between;
 
   &__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 8px 16px;
     border: 1px solid #F8F8F8;
     background: none;
@@ -19,5 +22,22 @@
     font-weight: 400;
     color: #F8F8F8;
     
+  }
+}
+
+@media(max-width: 425px) {
+  .header {
+    padding: 12px 0 64px;
+  }
+
+  .nav {
+
+    &__btn {
+      padding: 0;
+      border: none;
+      width: 40px;
+      height: 40px; 
+      line-height: 10px;
+    }
   }
 }
