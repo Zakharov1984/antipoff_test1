@@ -1,5 +1,5 @@
-
 import { Button } from '../UI/Button/Button';
+
 import classes from './Header.module.scss';
 
 export const Header = ({children}) => {

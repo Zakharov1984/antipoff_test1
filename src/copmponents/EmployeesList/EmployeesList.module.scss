@@ -1,0 +1,6 @@
+.EmployeesList {
+  display: grid;
+  grid-template-columns: repeat(4, 305px);
+  grid-template-rows: repeat(2, minmax(263px, auto));
+  gap: 20px;
+}

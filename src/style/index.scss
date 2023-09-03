@@ -12,8 +12,12 @@
   box-sizing: border-box;
 }
 
+ul {
+  list-style: none;
+}
+
 .container {
-  max-width: 1056px;
+  max-width: 1312px;
   padding: 0 16px;
   margin: 0 auto;
 }
