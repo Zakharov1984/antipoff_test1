@@ -18,14 +18,25 @@ export const EmployeesList = () => {
     dummyService.getEmployees()
       .then(resEmployees => setEmployees([...employees, ...resEmployees]));
   }, [])
-  
-  dummyService.getEmployees();
 
+  const onToggleLike = (id) => {
+    const newArray =  employees.map(employee => {
+      if (employee.id === id) {
+        return {
+          ...employee,
+          like: !employee.like,
+        }
+      }
+      return employee;
+    })
+    setEmployees(newArray);
+  }
+  
   return (
     <section className={classes.employees}>
       <div className="container">
         <ul className={classes.employeesList}>
-          {employees.map(employee => <EmployeesItem key={employee.id} {...employee}/>)}
+          {employees.map(employee => <EmployeesItem key={employee.id} {...employee} onToggleLike={onToggleLike}/>)}
         </ul>
         <Button className={classes.employees__more}>
           Показать еще

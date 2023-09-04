@@ -32,4 +32,9 @@
     background: #F8F8F8;
     border-radius: 4px;
   }
+
+  &__like_active {
+    fill: $mainColor;
+  }
+
 }
