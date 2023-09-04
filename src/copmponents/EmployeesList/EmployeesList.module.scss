@@ -20,7 +20,8 @@
 
 .employeesList {
   display: grid;
-  grid-template-columns: repeat(4, 305px);
+  grid-template-columns: repeat(auto-fill, minmax(auto, 305px));
   grid-template-rows: repeat(2, minmax(263px, auto));
   gap: 20px;
+  justify-content: center;
 }
