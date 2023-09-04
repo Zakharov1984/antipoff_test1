@@ -1,4 +1,24 @@
-.EmployeesList {
+@import '../../style/var';
+
+.employees {
+  padding: 48px 0 69px;
+
+  &__more {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 170px;
+    min-height: 40px;
+    margin: 56px auto 0;
+    padding: 8px 16px;
+    border: 1px solid #151317;
+    background: inherit;
+    font-weight: 400;
+    color: #151317; 
+  }
+}
+
+.employeesList {
   display: grid;
   grid-template-columns: repeat(4, 305px);
   grid-template-rows: repeat(2, minmax(263px, auto));
