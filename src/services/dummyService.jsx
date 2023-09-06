@@ -12,8 +12,9 @@ export class DummyService {
     return await responseObj.json();
   }
 
-  getEmployees = async () => {
-    const data = await this.getResource(`${this._apiBase}?limit=${this._limit}&skip=${this._offset}`);
+  getEmployees = async (offset = this._offset) => {
+    console.log(this._offset);
+    const data = await this.getResource(`${this._apiBase}?limit=${this._limit}&skip=${offset}`);
     return data.users.map(obj => this._transformEmployee(obj)); 
   }
 

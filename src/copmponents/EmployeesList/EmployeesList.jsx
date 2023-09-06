@@ -14,19 +14,29 @@ import classes from './EmployeesList.module.scss';
 export const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [newItemsLoading, setNewItemsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const [offset, setOffset] = useState(70);
 
   const dummyService = new DummyService();
 
   useEffect(() => {
-    dummyService.getEmployees()
+    onRequest();
+  }, [])
+
+  const onRequest = (offset) => {
+    setNewItemsLoading(true);
+    dummyService.getEmployees(offset)
       .then(resEmployees => onEmloyeesLoaded(resEmployees))
       .catch(error => onError(error));
-  }, [])
+    setOffset((offset) => offset + 8);
+  }
 
   const onEmloyeesLoaded = (resEmloyees) => {
     setEmployees([...employees, ...resEmloyees]);
     setLoading(false);
+    setNewItemsLoading(false);
   }
 
   const onError = (error) => {
@@ -46,7 +56,7 @@ export const EmployeesList = () => {
     })
     setEmployees(newArray);
   }
-  
+
   return (
     <section className={classes.employees}>
       <div className="container">
@@ -58,9 +68,16 @@ export const EmployeesList = () => {
             <ul className={classes.employeesList}>
               {employees.map(employee => <EmployeesItem key={employee.id} {...employee} onToggleLike={onToggleLike}/>)}
             </ul>
-            <Button className={classes.employees__more}>
-              Показать еще
-              <IconArrowDown/>
+            <Button
+              disabled={newItemsLoading}
+              className={classes.employees__more}
+              onClick={() => onRequest()}>
+              {!newItemsLoading 
+              ? <>
+                  Показать еще
+                  <IconArrowDown/>
+                </> 
+              : 'Загрузка...'}
             </Button>
           </> }
       </div>

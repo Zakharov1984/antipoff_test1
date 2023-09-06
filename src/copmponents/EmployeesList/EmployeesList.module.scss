@@ -5,8 +5,9 @@
 
   &__more {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 12px;
     width: 170px;
     min-height: 40px;
     margin: 56px auto 0;
