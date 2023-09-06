@@ -30,8 +30,8 @@ export const Header = ({children, page}) => {
       <div className="container">
         <nav className={classes.nav}>
           <Button
-            disabled={page == 'catalog' ? true : false} 
-            className={page == 'catalog' ? cn(classes.nav__btn, classes.nav__btn_hidden) : classes.nav__btn}>
+            disabled={page === 'catalog' ? true : false} 
+            className={page === 'catalog' ? cn(classes.nav__btn, classes.nav__btn_hidden) : classes.nav__btn}>
             {width <= 425 ? <BackIcon className={classes.svg}/> : 'Назад'}
           </Button>
           <Button className={classes.nav__btn}>

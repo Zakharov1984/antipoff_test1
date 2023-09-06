@@ -94,7 +94,7 @@ export const Register = () => {
     
   return (
     <div className={classes.register}>
-      <form className={classes.registerForm} action="#" >
+      <form method="post" className={classes.registerForm}>
         <h1 className={classes.registerForm__title}>Регистрация</h1>
         <Input
           classNameInput={classes.registerForm__input} 
