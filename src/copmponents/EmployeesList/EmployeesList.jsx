@@ -15,6 +15,7 @@ export const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newItemsLoading, setNewItemsLoading] = useState(false);
+  const [employeesEnded, setEmployeesEnded] = useState(false);
   const [error, setError] = useState('');
 
   const [offset, setOffset] = useState(70);
@@ -31,9 +32,11 @@ export const EmployeesList = () => {
       .then(resEmployees => onEmloyeesLoaded(resEmployees))
       .catch(error => onError(error));
     setOffset((offset) => offset + 8);
+    console.log('onRequest');
   }
 
   const onEmloyeesLoaded = (resEmloyees) => {
+    resEmloyees.length < 8 ? setEmployeesEnded(true) : setEmployeesEnded(false);
     setEmployees([...employees, ...resEmloyees]);
     setLoading(false);
     setNewItemsLoading(false);
@@ -69,9 +72,10 @@ export const EmployeesList = () => {
               {employees.map(employee => <EmployeesItem key={employee.id} {...employee} onToggleLike={onToggleLike}/>)}
             </ul>
             <Button
+              style={{display: employeesEnded ? 'none' : 'flex'}}
               disabled={newItemsLoading}
               className={classes.employees__more}
-              onClick={() => onRequest()}>
+              onClick={() => onRequest(offset)}>
               {!newItemsLoading 
               ? <>
                   Показать еще

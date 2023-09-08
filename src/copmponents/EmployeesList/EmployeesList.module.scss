@@ -15,7 +15,11 @@
     border: 1px solid #151317;
     background: inherit;
     font-weight: 400;
-    color: #151317; 
+    color: #151317;
+    
+    &:disabled {
+      opacity: 0.5;
+    }
   }
 }
 
