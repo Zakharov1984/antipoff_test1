@@ -13,10 +13,11 @@ import classes from './EmployeesList.module.scss';
 
 export const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [newItemsLoading, setNewItemsLoading] = useState(false);
   const [employeesEnded, setEmployeesEnded] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
 
   const [offset, setOffset] = useState(70);
 
