@@ -1,28 +1,24 @@
+import { useHttp } from "../hooks/http.hooks";
 
-export class DummyService {
-  _apiBase = 'https://dummyjson.com/users';
-  _limit = 8;
-  _offset = 70;
 
-  getResource = async (url) => {
-    const responseObj =  await fetch(url);
+export const useDummyService = () => {
+  const {loading, error, request, clearError} = useHttp();
 
-    if (!responseObj.ok) throw new Error(`Could not fetch ${url}, status ${responseObj.status}`);
 
-    return await responseObj.json();
+  const _apiBase = 'https://dummyjson.com/users';
+  const _limit = 8;
+
+  const getEmployees = async (offset) => {
+    const data = await request(`${_apiBase}?limit=${_limit}&skip=${offset}`);
+    return data.users.map(obj => _transformEmployee(obj)); 
   }
 
-  getEmployees = async (offset = this._offset) => {
-    const data = await this.getResource(`${this._apiBase}?limit=${this._limit}&skip=${offset}`);
-    return data.users.map(obj => this._transformEmployee(obj)); 
+  const getEmployee = async (id) => {
+    const data = await request(`${_apiBase}/${id}`);
+    return _transformEmployee(data); 
   }
 
-  getEmployee = async (id) => {
-    const data = await this.getResource(`${this._apiBase}/${id}`);
-    return this._transformEmployee(data); 
-  }
-
-  _transformEmployee = (resObj) => {
+  const _transformEmployee = (resObj) => {
     return {
       id: resObj.id,
       name: `${resObj.firstName} ${resObj.lastName}`,
@@ -32,5 +28,7 @@ export class DummyService {
       like: false,
     }
   }
+
+  return {loading, error, getEmployee, getEmployees};
   
 }

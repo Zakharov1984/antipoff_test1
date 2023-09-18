@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Button } from '../UI/Button/Button';
 import { EmployeesItem } from '../EmployeesItem/EmployeesItem';
-import { DummyService } from '../../services/dummyService';
+import { DummyService, useDummyService } from '../../services/dummyService';
 import { Spinner } from '../Spinner/Spinner';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 
@@ -15,23 +15,18 @@ export const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
   const [newItemsLoading, setNewItemsLoading] = useState(false);
   const [employeesEnded, setEmployeesEnded] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  
-
   const [offset, setOffset] = useState(70);
 
-  const dummyService = new DummyService();
-
+  const {loading, error, getEmployees} = useDummyService();
+  
   useEffect(() => {
-    onRequest();
+    onRequest(offset);
   }, [])
 
   const onRequest = (offset) => {
     setNewItemsLoading(true);
-    dummyService.getEmployees(offset)
-      .then(resEmployees => onEmloyeesLoaded(resEmployees))
-      .catch(error => onError(error));
+    getEmployees(offset)
+      .then(resEmployees => onEmloyeesLoaded(resEmployees));
     setOffset((offset) => offset + 8);
     console.log('onRequest');
   }
@@ -39,14 +34,9 @@ export const EmployeesList = () => {
   const onEmloyeesLoaded = (resEmloyees) => {
     resEmloyees.length < 8 ? setEmployeesEnded(true) : setEmployeesEnded(false);
     setEmployees([...employees, ...resEmloyees]);
-    setLoading(false);
     setNewItemsLoading(false);
   }
 
-  const onError = (error) => {
-    setError(error.message);
-    setLoading(false);
-  }
 
   const onToggleLike = (id) => {
     const newArray =  employees.map(employee => {
