@@ -15,6 +15,7 @@ export const useDummyService = () => {
 
   const getEmployee = async (id) => {
     const data = await request(`${_apiBase}/${id}`);
+    console.log(_transformEmployee(data));
     return _transformEmployee(data); 
   }
 

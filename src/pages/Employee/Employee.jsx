@@ -1,21 +1,30 @@
 import { Header } from "../../copmponents/Header/Header";
+import { changePhone } from "../../utils/changePhone";
 
 import {ReactComponent as PhoneIcon} from '../../resources/employee/phoneIcon.svg';
 import {ReactComponent as MailIcon} from '../../resources/employee/mailIcon.svg';
 
 import classes from './Employee.module.scss';
+import { useDummyService } from "../../services/dummyService";
+import { useEffect, useState } from "react";
 
 export const Employee = () => {
+  const [employee, setEmployee] = useState({});
+  const {loading, error, getEmployee} = useDummyService();
+
+  useEffect(() => {
+    getEmployee(74)
+      .then(employee => setEmployee(employee));
+  }, [])
 
   return (
     <div className={classes.employee}>
       <Header page='employee'>
         <div className={classes.employeeHeader__content}>
-          <img src="https://img.freepik.com/free-photo/portrait-of-handsome-smiling-stylish-hipster-lambersexual-model-sexy-man-dressed-in-pink-tshirt-and-trousers-fashion-male-isolated-on-blue-wall-in-studio_158538-26677.jpg?w=1060&t=st=1695028803~exp=1695029403~hmac=b289ce6d460530aa4165ffdc3fa79d5e0e6709f9ef40fc2339b57f9cebcdeadf" 
-            alt="employee"
+          <img src={employee.img}
             className={classes.employeeHeader__img} />
           <div className={classes.employeeHeader__text}>
-            <div className={classes.employeeHeader__textName}>Артур Королев</div>
+            <div className={classes.employeeHeader__textName}>{employee.name}</div>
             <div className={classes.employeeHeader__textStatus}>Партнер</div>
           </div>
         </div>
@@ -36,14 +45,14 @@ export const Employee = () => {
           <div className={classes.employee__connect}>
             <a 
               className={classes.employee__connectItem} 
-              href="tel:+79001111111">
+              href={`tel:${changePhone(employee.phone)}`}>
                 <PhoneIcon/>
-                +7-900-111-11-11
+                {employee.phone}
             </a>
             <a 
               className={classes.employee__connectItem} href="mailto:mail@htmlacademy.ru">
                 <MailIcon/>
-                Напишите нам
+                {employee.email}
             </a>
           </div>
         </section>
