@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "../../copmponents/UI/Button/Button";
 import { Input } from "../../copmponents/UI/Input/Input";
@@ -37,6 +38,7 @@ export const Register = () => {
   const [isVisiblePassword, setisVisiblePassword] = useState(false);
   const [isVisibleCheckPassword, setIsVisibleCheckPassword] = useState(false);
   //____________________________________________________________________________
+  const navigate = useNavigate();
 
   useEffect(() => {
     const {name, email, password, checkPassword} = inputsError;
@@ -73,12 +75,17 @@ export const Register = () => {
           e.target.value !== inputsValue.password ? changeError(e, true) : changeError(e, false);
           break;
       default:
-        console.log('sdf');
+        break;
     }
   }
 
   const changeVisiblePassword = () => setisVisiblePassword(!isVisiblePassword);
   const changeIsVisibleCheckPassword = () => setIsVisibleCheckPassword(!isVisibleCheckPassword);
+
+  const onRegistering = () => {
+    
+    navigate('/catalog');
+  }
 
   let mainClassIconPassword = !isVisiblePassword 
                                 ? classes.registerForm__icon 
@@ -105,45 +112,45 @@ export const Register = () => {
           value={inputsValue.name}
           label='Имя' />
           {(inputsDirty.name && inputsError.name) && <FormErrorMessage type='name'/>}
-          <Input
-            classNameInput={classes.registerForm__input} 
-            type='text' 
-            name="email"
-            onChange={handlerInputs}
-            onBlur={blurHandler} 
-            value={inputsValue.email}
-            label='Электронная почта' />
-          {(inputsDirty.email && inputsError.email) && <FormErrorMessage type='email'/>}
-          <Input
-            classNameInput={classes.registerForm__input} 
-            type={isVisiblePassword ? 'text' : 'password'} 
-            name="password"
-            onChange={handlerInputs}
-            onBlur={blurHandler} 
-            value={inputsValue.password}
-            label='Пароль'
-            IconEye={<IconEye 
-                      className={mainClassIconPassword} 
-                      onClick={changeVisiblePassword}/>}/>
-            {(inputsDirty.password && inputsError.password) && <FormErrorMessage type='password'/>}
-          <Input
-            classNameInput={classes.registerForm__input} 
-            type={isVisibleCheckPassword ? 'text' : 'password'} 
-            name="checkPassword"
-            onChange={handlerInputs}
-            onBlur={blurHandler} 
-            value={inputsValue.checkPassword}
-            label='Подтвердите пароль'
-            IconEye={<IconEye 
-                      className={mainClassIconCheckPassword} 
-                      onClick={changeIsVisibleCheckPassword}/>}/>
-            {(inputsDirty.checkPassword && inputsError.checkPassword) && <FormErrorMessage type='checkPassword'/>}
-          <Button 
-            disabled={!formValid} 
-            className={mainClassButton}
-            onClick={() => console.log('buttonActive')}>
-            Зарегистрироваться
-          </Button>
+        <Input
+          classNameInput={classes.registerForm__input} 
+          type='text' 
+          name="email"
+          onChange={handlerInputs}
+          onBlur={blurHandler} 
+          value={inputsValue.email}
+          label='Электронная почта' />
+        {(inputsDirty.email && inputsError.email) && <FormErrorMessage type='email'/>}
+        <Input
+          classNameInput={classes.registerForm__input} 
+          type={isVisiblePassword ? 'text' : 'password'} 
+          name="password"
+          onChange={handlerInputs}
+          onBlur={blurHandler} 
+          value={inputsValue.password}
+          label='Пароль'
+          IconEye={<IconEye 
+                    className={mainClassIconPassword} 
+                    onClick={changeVisiblePassword}/>}/>
+          {(inputsDirty.password && inputsError.password) && <FormErrorMessage type='password'/>}
+        <Input
+          classNameInput={classes.registerForm__input} 
+          type={isVisibleCheckPassword ? 'text' : 'password'} 
+          name="checkPassword"
+          onChange={handlerInputs}
+          onBlur={blurHandler} 
+          value={inputsValue.checkPassword}
+          label='Подтвердите пароль'
+          IconEye={<IconEye 
+                    className={mainClassIconCheckPassword} 
+                    onClick={changeIsVisibleCheckPassword}/>}/>
+          {(inputsDirty.checkPassword && inputsError.checkPassword) && <FormErrorMessage type='checkPassword'/>}
+        <Button 
+          disabled={!formValid} 
+          className={mainClassButton}
+          onClick={() => onRegistering()}>
+          Зарегистрироваться
+        </Button>
       </form>
     </div>
   )

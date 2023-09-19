@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 import { Button } from '../UI/Button/Button';
@@ -12,6 +13,7 @@ import classes from './Header.module.scss';
 
 export const Header = ({children, page}) => {
   const [width, setWidth] = useState(window.innerWidth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = (e) => {
@@ -31,10 +33,13 @@ export const Header = ({children, page}) => {
         <nav className={classes.nav}>
           <Button
             disabled={page === 'catalog' ? true : false} 
-            className={page === 'catalog' ? cn(classes.nav__btn, classes.nav__btn_hidden) : classes.nav__btn}>
+            className={page === 'catalog' ? cn(classes.nav__btn, classes.nav__btn_hidden) : classes.nav__btn}
+            onClick={() => navigate('/catalog')}>
             {width <= 425 ? <BackIcon className={classes.svg}/> : 'Назад'}
           </Button>
-          <Button className={classes.nav__btn}>
+          <Button 
+            className={classes.nav__btn}
+            onClick={() => navigate('/register')}>
             {width <= 425 ? <ExitIcon/> : 'Выход'}
           </Button>
         </nav>

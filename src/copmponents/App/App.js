@@ -1,16 +1,15 @@
-import { Register } from '../../pages/Register/Register';
-import { Catalog } from '../../pages/Catalog/Catalog';
-import { Employee } from '../../pages/Employee/Employee';
+import { BrowserRouter as Router} from 'react-router-dom';
+
+import { AppRouter } from '../UI/AppRouter/AppRouter';
 
 import './App.scss';
 
+
 function App() {
   return (
-    <div className="App">
-      {/* <Register/> */}
-      {/* <Catalog/> */}
-      <Employee/>
-    </div>
+    <Router>
+      <AppRouter/>
+    </Router>
   );
 }
 
