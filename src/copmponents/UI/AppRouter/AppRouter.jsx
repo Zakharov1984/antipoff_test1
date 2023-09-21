@@ -1,11 +1,21 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { StubPage } from "../../../pages/StubPage/StubPage";
-import { routes } from "../../router";
+import { privateRoutesArray, publicRoutesArray } from "../../router";
 
 export const AppRouter = () => {
+  const isAuth = true;
   return (
-    <Routes>
-        {routes.map(el => (<Route key={el.path} path={el.path} element={<el.component/>}/>))}
-    </Routes>
+    !isAuth
+      ? <Routes>
+          {publicRoutesArray.map(el => (<Route key={el.path} path={el.path} element={<el.component/>}/>))}
+        <Route path="*" element={<Navigate to="/register" replace={true}/>}/>
+        </Routes>
+      : <Routes>
+          {privateRoutesArray.map(el => (<Route key={el.path} path={el.path} element={<el.component/>}/>))}
+          <Route path="/" element={<Navigate to="/catalog" replace={true}/>}/>
+          <Route path="/register" element={<Navigate to="/catalog" replace={true}/>}/>
+          <Route path="*" element={<StubPage/>}/>
+
+        </Routes>
   )
 }

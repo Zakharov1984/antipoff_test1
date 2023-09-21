@@ -39,7 +39,7 @@ export const Header = ({children, page}) => {
           </Button>
           <Button 
             className={classes.nav__btn}
-            onClick={() => navigate('/register')}>
+            onClick={() => navigate('/register ')}>
             {width <= 425 ? <ExitIcon/> : 'Выход'}
           </Button>
         </nav>
