@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { Button } from "../../copmponents/UI/Button/Button";
 import { Input } from "../../copmponents/UI/Input/Input";
 import { FormErrorMessage } from "../../copmponents/FormErrorMessage/FormErrorMessage";
 import {ReactComponent as IconEye} from '../../resources/visible.svg';
+import { logIn } from "../../actions";
 
 import cn from 'classnames';
 
 import classes from './Register.module.scss';
+
 
 export const Register = () => {
   //состояния
@@ -39,6 +42,7 @@ export const Register = () => {
   const [isVisibleCheckPassword, setIsVisibleCheckPassword] = useState(false);
   //____________________________________________________________________________
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const {name, email, password, checkPassword} = inputsError;
@@ -82,9 +86,9 @@ export const Register = () => {
   const changeVisiblePassword = () => setisVisiblePassword(!isVisiblePassword);
   const changeIsVisibleCheckPassword = () => setIsVisibleCheckPassword(!isVisibleCheckPassword);
 
-  const onRegistering = () => {
-    
-    navigate('/catalog');
+  const register = (e) => {
+    e.preventDefault();
+    dispatch(logIn());
   }
 
   let mainClassIconPassword = !isVisiblePassword 
@@ -101,7 +105,10 @@ export const Register = () => {
     
   return (
     <div className={classes.register}>
-      <form method="post" className={classes.registerForm}>
+      <form 
+        method="post" 
+        className={classes.registerForm}
+        onSubmit={register}>
         <h1 className={classes.registerForm__title}>Регистрация</h1>
         <Input
           classNameInput={classes.registerForm__input} 
@@ -147,8 +154,7 @@ export const Register = () => {
           {(inputsDirty.checkPassword && inputsError.checkPassword) && <FormErrorMessage type='checkPassword'/>}
         <Button 
           disabled={!formValid} 
-          className={mainClassButton}
-          onClick={() => onRegistering()}>
+          className={mainClassButton}>
           Зарегистрироваться
         </Button>
       </form>

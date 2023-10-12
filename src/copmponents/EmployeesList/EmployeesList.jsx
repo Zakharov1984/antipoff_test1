@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Button } from '../UI/Button/Button';
 import { EmployeesItem } from '../EmployeesItem/EmployeesItem';
-import { DummyService, useDummyService } from '../../services/dummyService';
+import { useDummyService } from '../../services/dummyService';
 import { Spinner } from '../Spinner/Spinner';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 

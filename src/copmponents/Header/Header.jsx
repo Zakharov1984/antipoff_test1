@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 import { Button } from '../UI/Button/Button';
+import { logOut } from '../../actions';
 
 import {ReactComponent as BackIcon} from '../../resources/header/back.svg';
 import {ReactComponent as ExitIcon} from '../../resources/header/exit.svg';
@@ -10,10 +11,12 @@ import {ReactComponent as ExitIcon} from '../../resources/header/exit.svg';
 import cn from 'classnames';
 
 import classes from './Header.module.scss';
+import { useDispatch } from 'react-redux';
 
 export const Header = ({children, page}) => {
   const [width, setWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleResize = (e) => {
@@ -27,6 +30,10 @@ export const Header = ({children, page}) => {
     }
   }, [])
 
+  const exit = () => {
+    dispatch(logOut());
+  }
+
   return (
     <header className={classes.header}>
       <div className="container">
@@ -39,7 +46,7 @@ export const Header = ({children, page}) => {
           </Button>
           <Button 
             className={classes.nav__btn}
-            onClick={() => navigate('/register ')}>
+            onClick={exit}>
             {width <= 425 ? <ExitIcon/> : 'Выход'}
           </Button>
         </nav>
