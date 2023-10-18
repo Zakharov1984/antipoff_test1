@@ -1,5 +1,5 @@
 const initialState = {
-  isAuth: false,
+  isAuth: localStorage.getItem('auth') ? true : false,
 }
 
 export const authReducer = (state = initialState, action) => {

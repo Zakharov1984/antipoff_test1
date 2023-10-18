@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { employeesClearStateCreateAction, employeesFetchedCreateAction, employeesFetchingCreateAction, employeesFetchingErrorCreateAction, employeesLikeToggleCreateAction } from '../../actions';
 
 import { Button } from '../UI/Button/Button';
 import { EmployeesItem } from '../EmployeesItem/EmployeesItem';
@@ -11,52 +13,49 @@ import {ReactComponent as IconArrowDown} from '../../resources/employees/arrowDo
 import classes from './EmployeesList.module.scss';
 
 
-export const EmployeesList = () => {
-  const [employees, setEmployees] = useState([]);
-  const [newItemsLoading, setNewItemsLoading] = useState(false);
-  const [employeesEnded, setEmployeesEnded] = useState(false);
-  const [offset, setOffset] = useState(70);
 
-  const {loading, error, getEmployees} = useDummyService();
+export const EmployeesList = () => {
+  //const [employees, setEmployees] = useState([]);
+  //const [newItemsLoading, setNewItemsLoading] = useState(false);
+  //const [employeesEnded, setEmployeesEnded] = useState(false);
+  //const [offset, setOffset] = useState(70);
+  const dispatch = useDispatch();
+  const {employees,
+        offset,
+        employeesLoading,
+        newEmployeesLoading,
+        employeesLoadingError,
+        employeesEnded} = useSelector(state => state.employees);
+
+
+  const {getEmployees} = useDummyService();
   
   useEffect(() => {
-    onRequest(offset);
+    onRequest();
+    return () => {
+      dispatch(employeesClearStateCreateAction());
+    }
   }, [])
 
-  const onRequest = (offset) => {
-    setNewItemsLoading(true);
+  const onRequest = () => {
+    dispatch(employeesFetchingCreateAction());
     getEmployees(offset)
-      .then(resEmployees => onEmloyeesLoaded(resEmployees));
-    setOffset((offset) => offset + 8);
+      .then(resEmployees => dispatch(employeesFetchedCreateAction(resEmployees)))
+      .catch(error => dispatch(employeesFetchingErrorCreateAction(error)));
     console.log('onRequest');
-  }
-
-  const onEmloyeesLoaded = (resEmloyees) => {
-    resEmloyees.length < 8 ? setEmployeesEnded(true) : setEmployeesEnded(false);
-    setEmployees([...employees, ...resEmloyees]);
-    setNewItemsLoading(false);
   }
 
 
   const onToggleLike = (id) => {
-    const newArray =  employees.map(employee => {
-      if (employee.id === id) {
-        return {
-          ...employee,
-          like: !employee.like,
-        }
-      }
-      return employee;
-    })
-    setEmployees(newArray);
+    dispatch(employeesLikeToggleCreateAction(id));
   }
 
   return (
     <section className={classes.employees}>
       <div className="container">
-        {loading && <Spinner/>}
-        {error && <ErrorMessage message={error}/>}
-        {(loading || error) 
+        {employeesLoading && <Spinner/>}
+        {employeesLoadingError && <ErrorMessage message={employeesLoadingError}/>}
+        {(employeesLoading || employeesLoadingError) 
         ? null
         : <>
             <ul className={classes.employeesList}>
@@ -64,10 +63,10 @@ export const EmployeesList = () => {
             </ul>
             <Button
               style={{display: employeesEnded ? 'none' : 'flex'}}
-              disabled={newItemsLoading}
+              disabled={newEmployeesLoading}
               className={classes.employees__more}
               onClick={() => onRequest(offset)}>
-              {!newItemsLoading 
+              {!newEmployeesLoading 
               ? <>
                   Показать еще
                   <IconArrowDown/>

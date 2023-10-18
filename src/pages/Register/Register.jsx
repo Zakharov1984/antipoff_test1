@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { Button } from "../../copmponents/UI/Button/Button";
 import { Input } from "../../copmponents/UI/Input/Input";
 import { FormErrorMessage } from "../../copmponents/FormErrorMessage/FormErrorMessage";
 import {ReactComponent as IconEye} from '../../resources/visible.svg';
-import { logIn } from "../../actions";
+import { logInCreateAction } from "../../actions";
 
 import cn from 'classnames';
 
@@ -41,7 +40,6 @@ export const Register = () => {
   const [isVisiblePassword, setisVisiblePassword] = useState(false);
   const [isVisibleCheckPassword, setIsVisibleCheckPassword] = useState(false);
   //____________________________________________________________________________
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -86,9 +84,10 @@ export const Register = () => {
   const changeVisiblePassword = () => setisVisiblePassword(!isVisiblePassword);
   const changeIsVisibleCheckPassword = () => setIsVisibleCheckPassword(!isVisibleCheckPassword);
 
-  const register = (e) => {
+  const logIn = (e) => {
     e.preventDefault();
-    dispatch(logIn());
+    dispatch(logInCreateAction());
+    localStorage.setItem('auth', 'true');
   }
 
   let mainClassIconPassword = !isVisiblePassword 
@@ -108,7 +107,7 @@ export const Register = () => {
       <form 
         method="post" 
         className={classes.registerForm}
-        onSubmit={register}>
+        onSubmit={logIn}>
         <h1 className={classes.registerForm__title}>Регистрация</h1>
         <Input
           classNameInput={classes.registerForm__input} 

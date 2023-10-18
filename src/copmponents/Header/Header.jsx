@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
 
 import { Button } from '../UI/Button/Button';
-import { logOut } from '../../actions';
+import { logOutCreateAction } from '../../actions';
 
 import {ReactComponent as BackIcon} from '../../resources/header/back.svg';
 import {ReactComponent as ExitIcon} from '../../resources/header/exit.svg';
@@ -11,7 +11,6 @@ import {ReactComponent as ExitIcon} from '../../resources/header/exit.svg';
 import cn from 'classnames';
 
 import classes from './Header.module.scss';
-import { useDispatch } from 'react-redux';
 
 export const Header = ({children, page}) => {
   const [width, setWidth] = useState(window.innerWidth);
@@ -30,8 +29,9 @@ export const Header = ({children, page}) => {
     }
   }, [])
 
-  const exit = () => {
-    dispatch(logOut());
+  const logOut = () => {
+    dispatch(logOutCreateAction());
+    localStorage.removeItem('auth');
   }
 
   return (
@@ -46,7 +46,7 @@ export const Header = ({children, page}) => {
           </Button>
           <Button 
             className={classes.nav__btn}
-            onClick={exit}>
+            onClick={logOut}>
             {width <= 425 ? <ExitIcon/> : 'Выход'}
           </Button>
         </nav>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from 'react-router-dom';
 
 import { Header } from "../../copmponents/Header/Header";
@@ -11,23 +11,29 @@ import {ReactComponent as PhoneIcon} from '../../resources/employee/phoneIcon.sv
 import {ReactComponent as MailIcon} from '../../resources/employee/mailIcon.svg';
 
 import classes from './Employee.module.scss';
+import { useDispatch, useSelector } from "react-redux";
+import { employeeFetchedCreateAction, employeeFetchingCreateAction, employeeFetchingErrorCreateAction } from "../../actions";
 
 export const Employee = () => {
-  const [employee, setEmployee] = useState({});
-  const {loading, error, getEmployee} = useDummyService();
+  const {getEmployee} = useDummyService();
 
   const {id} = useParams();
 
+  const dispatch = useDispatch();
+  const {employee, employeeLoading, employeeLoadingError} = useSelector(state => state.employee);
+
   useEffect(() => {
+    dispatch(employeeFetchingCreateAction());
     getEmployee(id)
-      .then(employee => setEmployee(employee));
+      .then(employee => dispatch(employeeFetchedCreateAction(employee)))
+      .catch(error => dispatch(employeeFetchingErrorCreateAction(error)));
   }, [])
 
   return (
     <div className={classes.employee}>
-      {loading && <div style={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}><Spinner/></div>}
-      {error && <ErrorMessage message={error}/>}
-      {(loading || error) 
+      {employeeLoading && <div style={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}><Spinner/></div>}
+      {employeeLoadingError && <ErrorMessage message={employeeLoadingError}/>}
+      {(employeeLoading || employeeLoadingError) 
         ? null
         : <>
             <Header page='employee'>
