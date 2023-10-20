@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { employeeFetchedCreateAction, employeeFetchingCreateAction, employeeFetchingErrorCreateAction } from "../../actions";
 
 import { Header } from "../../copmponents/Header/Header";
 import { Spinner } from "../../copmponents/Spinner/Spinner";
@@ -11,8 +13,7 @@ import {ReactComponent as PhoneIcon} from '../../resources/employee/phoneIcon.sv
 import {ReactComponent as MailIcon} from '../../resources/employee/mailIcon.svg';
 
 import classes from './Employee.module.scss';
-import { useDispatch, useSelector } from "react-redux";
-import { employeeFetchedCreateAction, employeeFetchingCreateAction, employeeFetchingErrorCreateAction } from "../../actions";
+
 
 export const Employee = () => {
   const {getEmployee} = useDummyService();

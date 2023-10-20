@@ -11,6 +11,7 @@ const store = configureStore({
     employee: employeeReducer,
     auth: authReducer,
   },
+  middleware: getDefautlMiddleware => getDefautlMiddleware(),
   devTools: process.env.NODE_ENV !== 'production',
 })
 
