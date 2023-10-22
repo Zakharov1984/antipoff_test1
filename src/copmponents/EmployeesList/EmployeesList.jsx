@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { employeesFetching, employeesFetched, employeesFetchingError, employeesClearState, employeesLikeToggle, } from '../EmployeesList/EmployeesSlice';
+import { employeesClearState, employeesLikeToggle, } from '../EmployeesList/EmployeesSlice';
+import { employeesFetch } from '../EmployeesList/EmployeesSlice';
 
 import { Button } from '../UI/Button/Button';
 import { EmployeesItem } from '../EmployeesItem/EmployeesItem';
-import { useDummyService } from '../../services/dummyService';
 import { Spinner } from '../Spinner/Spinner';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 
@@ -22,9 +22,6 @@ export const EmployeesList = () => {
         newEmployeesLoading,
         employeesLoadingError,
         employeesEnded} = useSelector(state => state.employees);
-
-
-  const {getEmployees} = useDummyService();
   
   useEffect(() => {
     onRequest();
@@ -34,11 +31,7 @@ export const EmployeesList = () => {
   }, [])
 
   const onRequest = () => {
-    dispatch(employeesFetching());
-    getEmployees(offset)
-      .then(resEmployees => dispatch(employeesFetched(resEmployees)))
-      .catch(error => dispatch(employeesFetchingError(error)));
-    console.log('onRequest');
+    dispatch(employeesFetch(offset));
   }
 
 

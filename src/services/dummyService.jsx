@@ -2,7 +2,7 @@ import { useHttp } from "../hooks/http.hooks";
 
 
 export const useDummyService = () => {
-  const {loading, error, request, clearError} = useHttp();
+  const {request} = useHttp();
 
 
   const _apiBase = 'https://dummyjson.com/users';
@@ -15,7 +15,6 @@ export const useDummyService = () => {
 
   const getEmployee = async (id) => {
     const data = await request(`${_apiBase}/${id}`);
-    console.log(_transformEmployee(data));
     return _transformEmployee(data); 
   }
 
@@ -30,6 +29,6 @@ export const useDummyService = () => {
     }
   }
 
-  return {loading, error, getEmployee, getEmployees};
+  return {getEmployee, getEmployees};
   
 }

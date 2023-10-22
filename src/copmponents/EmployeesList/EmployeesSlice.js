@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useDummyService } from "../../services/dummyService";
 
 const initialState = {
   employees: [],
@@ -9,23 +10,20 @@ const initialState = {
   offset: 70,
 }
 
+export const employeesFetch = createAsyncThunk(
+  'employees/employeesFetch',
+  async (offset) => {
+    const { getEmployees } = useDummyService();
+    return await getEmployees(offset);
+  }
+)
+
+
+
 const employeesSlice = createSlice({
   name: 'employees',
   initialState,
   reducers: {
-    employeesFetching: state => {state.newEmployeesLoading = true},
-    employeesFetched: (state, action) => {
-      state.employees = [...state.employees, ...action.payload];
-      state.offset = state.offset + 8;
-      state.employeesLoading = false;
-      state.newEmployeesLoading = false;
-      state.employeesEnded = action.payload.length < 8 ? true : false;
-    },
-    employeesFetchingError: (state,action) => {
-      state.employeesLoading = false;
-      state.newEmployeesLoading = false;
-      state.employeesLoadingError = action.payload;
-    },
     employeesClearState: state => {
       state.employees = [];
       state.employeesLoading = true;
@@ -41,6 +39,23 @@ const employeesSlice = createSlice({
         }
       })
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(employeesFetch.pending, state => {state.newEmployeesLoading = true})
+      .addCase(employeesFetch.fulfilled, (state, action) => {
+        state.employees = [...state.employees, ...action.payload];
+        state.offset = state.offset + 8;
+        state.employeesLoading = false;
+        state.newEmployeesLoading = false;
+        state.employeesEnded = action.payload.length < 8 ? true : false;
+      })
+      .addCase(employeesFetch.rejected, (state,action) => {
+        state.employeesLoading = false;
+        state.newEmployeesLoading = false;
+        state.employeesLoadingError = action.payload;
+      })
+      .addDefaultCase(() => {}) 
   }
 
 })
@@ -50,9 +65,6 @@ const {actions, reducer} = employeesSlice;
 export default reducer;
 
 export const { 
-  employeesFetching,
-  employeesFetched,
-  employeesFetchingError,
   employeesClearState,
   employeesLikeToggle,
 } = actions;

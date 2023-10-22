@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { employeeFetching, employeeFetched, employeeFetchingError } from "../Employee/employeeSlice";
 
 import { Header } from "../../copmponents/Header/Header";
 import { Spinner } from "../../copmponents/Spinner/Spinner";
 import { ErrorMessage } from "../../copmponents/ErrorMessage/ErrorMessage";
 import { changePhone } from "../../utils/changePhone";
-import { useDummyService } from "../../services/dummyService";
+import { employeeFetch } from '../Employee/employeeSlice';
 
 import {ReactComponent as PhoneIcon} from '../../resources/employee/phoneIcon.svg';
 import {ReactComponent as MailIcon} from '../../resources/employee/mailIcon.svg';
@@ -16,7 +15,6 @@ import classes from './Employee.module.scss';
 
 
 export const Employee = () => {
-  const {getEmployee} = useDummyService();
 
   const {id} = useParams();
 
@@ -24,11 +22,7 @@ export const Employee = () => {
   const {employee, employeeLoading, employeeLoadingError} = useSelector(state => state.employee);
 
   useEffect(() => {
-    dispatch(employeeFetching());
-    getEmployee(id)
-      .then(employee => dispatch(employeeFetched(employee)))
-      .catch(error => dispatch(employeeFetchingError(error)));
-      return () => console.log('размонтирование компонента сотрудника');
+    dispatch(employeeFetch(id));
   }, [])
 
   return (
