@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import employessReducer from "../reducers/employessReducer";
-import authReducer from "../reducers/authReducer";
-import employeeReducer from "../reducers/employeeReducer";
+import employessReducer from "../copmponents/EmployeesList/EmployeesSlice";
+import authReducer from "../pages/Register/authSlice";
+import employeeReducer from "../pages/Employee/employeeSlice";
 
 
 const store = configureStore({

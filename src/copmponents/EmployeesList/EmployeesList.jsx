@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { employeesClearStateCreateAction, employeesFetchedCreateAction, employeesFetchingCreateAction, employeesFetchingErrorCreateAction, employeesLikeToggleCreateAction } from '../../actions';
+import { employeesFetching, employeesFetched, employeesFetchingError, employeesClearState, employeesLikeToggle, } from '../EmployeesList/EmployeesSlice';
 
 import { Button } from '../UI/Button/Button';
 import { EmployeesItem } from '../EmployeesItem/EmployeesItem';
@@ -15,10 +15,6 @@ import classes from './EmployeesList.module.scss';
 
 
 export const EmployeesList = () => {
-  //const [employees, setEmployees] = useState([]);
-  //const [newItemsLoading, setNewItemsLoading] = useState(false);
-  //const [employeesEnded, setEmployeesEnded] = useState(false);
-  //const [offset, setOffset] = useState(70);
   const dispatch = useDispatch();
   const {employees,
         offset,
@@ -33,21 +29,21 @@ export const EmployeesList = () => {
   useEffect(() => {
     onRequest();
     return () => {
-      dispatch(employeesClearStateCreateAction());
+      dispatch(employeesClearState());
     }
   }, [])
 
   const onRequest = () => {
-    dispatch(employeesFetchingCreateAction());
+    dispatch(employeesFetching());
     getEmployees(offset)
-      .then(resEmployees => dispatch(employeesFetchedCreateAction(resEmployees)))
-      .catch(error => dispatch(employeesFetchingErrorCreateAction(error)));
+      .then(resEmployees => dispatch(employeesFetched(resEmployees)))
+      .catch(error => dispatch(employeesFetchingError(error)));
     console.log('onRequest');
   }
 
 
   const onToggleLike = (id) => {
-    dispatch(employeesLikeToggleCreateAction(id));
+    dispatch(employeesLikeToggle(id));
   }
 
   return (

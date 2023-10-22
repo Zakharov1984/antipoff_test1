@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { employeeFetchedCreateAction, employeeFetchingCreateAction, employeeFetchingErrorCreateAction } from "../../actions";
+import { employeeFetching, employeeFetched, employeeFetchingError } from "../Employee/employeeSlice";
 
 import { Header } from "../../copmponents/Header/Header";
 import { Spinner } from "../../copmponents/Spinner/Spinner";
@@ -24,10 +24,11 @@ export const Employee = () => {
   const {employee, employeeLoading, employeeLoadingError} = useSelector(state => state.employee);
 
   useEffect(() => {
-    dispatch(employeeFetchingCreateAction());
+    dispatch(employeeFetching());
     getEmployee(id)
-      .then(employee => dispatch(employeeFetchedCreateAction(employee)))
-      .catch(error => dispatch(employeeFetchingErrorCreateAction(error)));
+      .then(employee => dispatch(employeeFetched(employee)))
+      .catch(error => dispatch(employeeFetchingError(error)));
+      return () => console.log('размонтирование компонента сотрудника');
   }, [])
 
   return (

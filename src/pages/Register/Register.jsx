@@ -5,7 +5,7 @@ import { Button } from "../../copmponents/UI/Button/Button";
 import { Input } from "../../copmponents/UI/Input/Input";
 import { FormErrorMessage } from "../../copmponents/FormErrorMessage/FormErrorMessage";
 import {ReactComponent as IconEye} from '../../resources/visible.svg';
-import { logInCreateAction } from "../../actions";
+import { logIn } from "../../pages/Register/authSlice";
 
 import cn from 'classnames';
 
@@ -84,9 +84,9 @@ export const Register = () => {
   const changeVisiblePassword = () => setisVisiblePassword(!isVisiblePassword);
   const changeIsVisibleCheckPassword = () => setIsVisibleCheckPassword(!isVisibleCheckPassword);
 
-  const logIn = (e) => {
+  const onLogIn = (e) => {
     e.preventDefault();
-    dispatch(logInCreateAction());
+    dispatch(logIn());
     localStorage.setItem('auth', 'true');
   }
 
@@ -107,7 +107,7 @@ export const Register = () => {
       <form 
         method="post" 
         className={classes.registerForm}
-        onSubmit={logIn}>
+        onSubmit={onLogIn}>
         <h1 className={classes.registerForm__title}>Регистрация</h1>
         <Input
           classNameInput={classes.registerForm__input} 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { Button } from '../UI/Button/Button';
-import { logOutCreateAction } from '../../actions';
+import { logOut } from '../../pages/Register/authSlice';
 
 import {ReactComponent as BackIcon} from '../../resources/header/back.svg';
 import {ReactComponent as ExitIcon} from '../../resources/header/exit.svg';
@@ -29,8 +29,8 @@ export const Header = ({children, page}) => {
     }
   }, [])
 
-  const logOut = () => {
-    dispatch(logOutCreateAction());
+  const onLogOut = () => {
+    dispatch(logOut());
     localStorage.removeItem('auth');
   }
 
@@ -46,7 +46,7 @@ export const Header = ({children, page}) => {
           </Button>
           <Button 
             className={classes.nav__btn}
-            onClick={logOut}>
+            onClick={onLogOut}>
             {width <= 425 ? <ExitIcon/> : 'Выход'}
           </Button>
         </nav>
