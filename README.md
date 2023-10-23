@@ -1,6 +1,6 @@
 ## Общая информация:
-    Site type - SPA(Single Page Application), response.
-    API - https://dummyjson.com/
+Site type - SPA(Single Page Application), response.
+API - https://dummyjson.com/
 ___
 
 ## Stack:
